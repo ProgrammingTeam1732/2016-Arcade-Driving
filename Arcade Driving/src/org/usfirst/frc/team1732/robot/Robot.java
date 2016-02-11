@@ -39,9 +39,10 @@ public class Robot extends SampleRobot {
 
 	public void operatorControl() {
 		while (isOperatorControl() && isEnabled()) {
-			// map this out right
-			y = controller.getRawAxis(1); // y axis on left joy stick
-			x = controller.getRawAxis(2); // x axis on right joy stick
+			double scalar = Math.atan2(y, x) % (Math.PI / 2);
+			scalar = scalar > (Math.PI / 4) ? 1/Math.cos(Math.PI / 2 - scalar) : 1/Math.cos(scalar);
+			y = controller.getRawAxis(1)*scalar; // y axis on left joy stick
+			x = controller.getRawAxis(2)*scalar; // x axis on right joy stick
 			left = (y + x)/2.0;
 			right = (y - x)/2.0;
 			left1.set(left); left2.set(left); left3.set(-left);

@@ -15,8 +15,8 @@ public class Robot extends SampleRobot {
 
 	public Robot() {
 		// Sensor Prototyping robot: (one with the camera, left 3 and right 3 need to be negated)
-		left1 = new CANTalon(11); left2 = new CANTalon(22); left3 = new CANTalon(21);
-		right1 = new CANTalon(14); right2 = new CANTalon(1); right3 = new CANTalon(13);
+		left1 = new CANTalon(11); left2 = new CANTalon(21); left3 = new CANTalon(22);
+		right1 = new CANTalon(14); right2 = new CANTalon(12); right3 = new CANTalon(13);
 		
 		// Need to double check ports on these
 		/*
@@ -40,12 +40,10 @@ public class Robot extends SampleRobot {
 	public void operatorControl() {
 		while (isOperatorControl() && isEnabled()) {
 			// map this out right
-			y = controller.getRawAxis(1);
-			x = controller.getRawAxis(0);
-			left = y + x;
-			right = y - x;
-			if (left > 1) left /= left; right/=left;
-			if (right < -1) right /= right; left/=right;
+			y = controller.getRawAxis(1); // y axis on left joy stick
+			x = controller.getRawAxis(2); // x axis on right joy stick
+			left = (y + x)/2.0;
+			right = (y - x)/2.0;
 			left1.set(left); left2.set(left); left3.set(-left);
 			right1.set(right); right2.set(right); right3.set(-right);
 		}

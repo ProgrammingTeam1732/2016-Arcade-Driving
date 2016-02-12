@@ -17,7 +17,7 @@ public class Robot extends SampleRobot {
 		// Sensor Prototyping robot: (one with the camera, left 3 and right 3 need to be negated)
 		left1 = new CANTalon(11); left2 = new CANTalon(21); left3 = new CANTalon(22);
 		right1 = new CANTalon(14); right2 = new CANTalon(12); right3 = new CANTalon(13);
-		
+		controller = new Joystick(0);
 		// Need to double check ports on these
 		/*
 		 * West Coast Robot: (also not sure which robot it is)
@@ -42,11 +42,13 @@ public class Robot extends SampleRobot {
 			double scalar = Math.atan2(y, x) % (Math.PI / 2);
 			scalar = scalar > (Math.PI / 4) ? 1/Math.cos(Math.PI / 2 - scalar) : 1/Math.cos(scalar);
 			y = controller.getRawAxis(1)*scalar; // y axis on left joy stick
-			x = controller.getRawAxis(2)*scalar; // x axis on right joy stick
+			x = controller.getRawAxis(4)*scalar; // x axis on right joy stick
 			left = (y + x)/2.0;
 			right = (y - x)/2.0;
+			left = left*Math.abs(left);
+			right = right*Math.abs(right);
 			left1.set(left); left2.set(left); left3.set(-left);
-			right1.set(right); right2.set(right); right3.set(-right);
+			right1.set(-right); right2.set(-right); right3.set(right);
 		}
 	}
 
